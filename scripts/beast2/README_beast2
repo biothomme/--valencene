@@ -1,0 +1,9 @@
+SpeciesNetworks from BEAST2 can be run in commandline.
+
+BEAST2 can run SpeciesNetworks after using BEAUTI (interface-tool) with the xml-output format SpeciesNetworks. The xml file can be used to start BEAST
+
+
+Recommended workflow: http://evomicsorg.wpengine.netdna-cdn.com/wp-content/uploads/2018/01/tutorial-1.pdf
+
+So far I did not find a way to automate it in the commandline - maybe with babette (an R package - https://docs.ropensci.org/babette/).
+

@@ -1,0 +1,72 @@
+HyDe can be run in commandline, as well as in python interface.
+
+HyDe involves 3 different python modules, which require different inputs (for more info of unctions run '$<module> -h'):
+
+-> run_hyde.py: standard hybridization detection analysis on all triples in all directions. 
+   results filtered by significance of evidence of hybridization.
+	input:	- phylip formatted sequence file
+		- map txt file linking sequence/indiv names with species/OTUs (tab-delim)
+
+	required arguments:
+	  -i, --infile     name of the data input file
+	  -m, --map        map of individuals to taxa
+	  -o, --outgroup   name of the outgroup (only one accepted)
+	  -n, --num_ind    number of individuals in data matrix
+	  -t, --num_taxa   number of taxa (species, OTUs)
+	  -s, --num_sites  number of sites in the data matrix
+
+	additional arguments:
+	  -tr, --triples   table of triples to be analyzed
+	  -p, --pvalue     p-value cutoff for test of significance [default=0.05]
+	  --prefix           prefix appended to output files [default=hyde]
+	  -q, --quiet          supress printing to stdout
+	  --ignore_amb_sites   ignore missing/ambiguous sites
+
+-> individual_hyde.py: hybridisation test on all individuals. results filtered by significance of evidence of hybridization.
+	input:  - phylip formatted sequence file
+                - map txt file linking sequence/indiv names with species/OTUs (tab-delim)
+		- triples text file giving the triples of indiv/OTUs to test in order parent1, 
+		  hybrid, parent2 (tab-delim). this can be output of run_hyde.py
+
+	required arguments:
+	  -i, --infile     name of the data input file
+	  -m, --map        map of individuals to taxa
+	  -o, --outgroup   name of the outgroup (only one accepted)
+	  -tr, --triples   table of triples to be analyzed.
+	  -n, --num_ind    number of individuals in data matrix
+	  -t, --num_taxa   number of taxa (species, OTUs)
+	  -s, --num_sites  number of sites in the data matrix
+
+	additional arguments:
+	  --prefix           prefix appended to output files [default=hyde]
+	  -q, --quiet          supress printing to stdout
+	  --ignore_amb_sites   ignore missing/ambiguous sites
+
+-> bootstrap_hyde.py: bootstrap resampling performed within hybrid population and following hybridization analysis.
+        input:  - phylip formatted sequence file
+                - map txt file linking sequence/indiv names with species/OTUs (tab-delim)
+                - triples text file giving the triples of indiv/OTUs to test in order parent1,
+                  hybrid, parent2 (tab-delim). this can be output of run_hyde.py
+
+	required arguments:
+	  -i, --infile     name of the data input file
+	  -m, --map        map of individuals to taxa
+	  -o, --outgroup   name of the outgroup (only one accepted)
+	  -tr, --triples   table of triples to be analyzed.
+	  -n, --num_ind    number of individuals in data matrix
+	  -t, --num_taxa   number of taxa (species, OTUs)
+	  -s, --num_sites  number of sites in the data matrix
+	
+	additional arguments:
+	  -r, --reps       number of bootstrap replicates [default=100]
+	  --prefix           prefix appended to output files [default=hyde]
+	  -q, --quiet          supress printing to stdout
+	  --ignore_amb_sites   ignore missing/ambiguous sites
+
+
+Recommended workflow (https://hybridization-detection.readthedocs.io/analyze.html):
+Use the run_hyde.py script to analyze all possible triples. This will produce two output files, one with all results and one with only significant results (see Note below on filtered results).
+
+Next, if you want to see if certain individuals are hybrids, run the individual_hyde.py script and use the filtered results file output from the previous step as the triples file.
+
+For the bootstrap_hyde.py script, we recommend using it when you don’t have enough data (and therefore not enough power) to detect hybridization within a single individual. This will depend on how much hybridization has occurred, but it is typically difficult to detect hybridization with HyDe using less than 10,000 sites. Otherwise, we always recommend using the individual_hyde.py script.
